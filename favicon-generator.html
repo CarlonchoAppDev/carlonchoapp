@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body { margin: 0; padding: 20px; font-family: Arial, sans-serif; }
+.favicon-preview { width: 32px; height: 32px; border: 1px solid #ccc; margin: 10px; }
+</style>
+</head>
+<body>
+<h3>Generador de Favicon para CarlonchoApp</h3>
+<canvas id="faviconCanvas" width="32" height="32" class="favicon-preview"></canvas>
+<br>
+<button onclick="generateFavicon()">Generar Favicon</button>
+<br><br>
+<a id="downloadLink" style="display:none;">Descargar favicon.ico</a>
+
+<script>
+function generateFavicon() {
+    const canvas = document.getElementById('faviconCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Limpiar canvas
+    ctx.clearRect(0, 0, 32, 32);
+    
+    // Fondo circular gradiente
+    const gradient = ctx.createLinearGradient(0, 0, 32, 32);
+    gradient.addColorStop(0, '#667eea');
+    gradient.addColorStop(1, '#764ba2');
+    
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(16, 16, 15, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Borde
+    ctx.strokeStyle = '#444';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    // Documento (rectángulo blanco)
+    ctx.fillStyle = 'white';
+    ctx.fillRect(8, 6, 12, 16);
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 0.5;
+    ctx.strokeRect(8, 6, 12, 16);
+    
+    // Líneas del documento
+    ctx.strokeStyle = '#667eea';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(10, 9); ctx.lineTo(18, 9);
+    ctx.moveTo(10, 12); ctx.lineTo(16, 12);
+    ctx.moveTo(10, 15); ctx.lineTo(18, 15);
+    ctx.stroke();
+    
+    // Círculo de verificación
+    ctx.fillStyle = '#8B0000';
+    ctx.beginPath();
+    ctx.arc(22, 24, 4, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Marca de verificación
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(20, 24);
+    ctx.lineTo(21.5, 25.5);
+    ctx.lineTo(24, 22.5);
+    ctx.stroke();
+    
+    // Letra C
+    ctx.fillStyle = '#8B0000';
+    ctx.font = 'bold 8px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('C', 14, 19);
+    
+    // Crear enlace de descarga
+    const link = document.getElementById('downloadLink');
+    link.href = canvas.toDataURL('image/png');
+    link.download = 'favicon.png';
+    link.style.display = 'block';
+    link.textContent = 'Descargar favicon.png';
+}
+
+// Generar automáticamente
+generateFavicon();
+</script>
+</body>
+</html>

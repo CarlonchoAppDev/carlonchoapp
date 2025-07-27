@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/carlonchoapp/static/css/main.2c8758ef.css",
+    "main.js": "/carlonchoapp/static/js/main.e1773cb7.js",
+    "static/js/453.14e77f41.chunk.js": "/carlonchoapp/static/js/453.14e77f41.chunk.js",
+    "index.html": "/carlonchoapp/index.html",
+    "main.2c8758ef.css.map": "/carlonchoapp/static/css/main.2c8758ef.css.map",
+    "main.e1773cb7.js.map": "/carlonchoapp/static/js/main.e1773cb7.js.map",
+    "453.14e77f41.chunk.js.map": "/carlonchoapp/static/js/453.14e77f41.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2c8758ef.css",
+    "static/js/main.e1773cb7.js"
+  ]
+}
