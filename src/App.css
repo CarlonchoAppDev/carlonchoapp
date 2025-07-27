@@ -1,0 +1,112 @@
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #181a20 !important;
+  min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #181a20 0%, #23272f 100%);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+  filter: drop-shadow(0 0 24px #17a2b8);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background: rgba(35, 39, 47, 0.98);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: #f8f9fa;
+  box-shadow: none;
+  margin: 0;
+  max-width: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* Estilos para cards y listas */
+.card-dark {
+  background: #23272f;
+  border-radius: 12px;
+  box-shadow: 0 0 24px rgba(0,0,0,0.3);
+  padding: 24px;
+  color: #f8f9fa;
+  margin-bottom: 24px;
+}
+
+.list-group-item {
+  background: #23272f !important;
+  color: #f8f9fa !important;
+  border: 1px solid #292d36 !important;
+}
+
+.btn {
+  border-radius: 8px !important;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-outline-light, .btn-outline-info, .btn-outline-secondary, .btn-outline-warning, .btn-outline-success, .btn-outline-danger {
+  background: transparent !important;
+  color: #f8f9fa !important;
+  border-color: #444 !important;
+}
+
+.btn-light {
+  background: #f8f9fa !important;
+  color: #23272f !important;
+}
+
+.btn-info {
+  background: #17a2b8 !important;
+  color: #fff !important;
+}
+
+.btn-secondary {
+  background: #6c757d !important;
+  color: #fff !important;
+}
+
+.btn-warning {
+  background: #ffc107 !important;
+  color: #23272f !important;
+}
+
+.btn-success {
+  background: #28a745 !important;
+  color: #fff !important;
+}
+
+.btn-danger {
+  background: #d9534f !important;
+  color: #fff !important;
+}
+
+@media (max-width: 600px) {
+  .tu-clase-o-div {
+    padding: 8px !important;
+  }
+}

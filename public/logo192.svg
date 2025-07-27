@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <!-- Fondo circular gradiente -->
+  <defs>
+    <linearGradient id="bgGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <circle cx="96" cy="96" r="90" fill="url(#bgGrad192)" stroke="#444" stroke-width="4"/>
+  
+  <!-- Documento principal -->
+  <rect x="48" y="36" width="66" height="96" rx="6" fill="white" stroke="#333" stroke-width="3"/>
+  
+  <!-- Líneas del documento -->
+  <line x1="60" y1="54" x2="102" y2="54" stroke="#667eea" stroke-width="4" stroke-linecap="round"/>
+  <line x1="60" y1="72" x2="96" y2="72" stroke="#667eea" stroke-width="4" stroke-linecap="round"/>
+  <line x1="60" y1="90" x2="102" y2="90" stroke="#667eea" stroke-width="4" stroke-linecap="round"/>
+  <line x1="60" y1="108" x2="90" y2="108" stroke="#667eea" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Marca de verificación grande -->
+  <circle cx="132" cy="144" r="24" fill="#8B0000" stroke="white" stroke-width="6"/>
+  <path d="M120 144 L129 153 L144 135" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  
+  <!-- Letra C estilizada -->
+  <text x="81" y="126" font-family="Sedgwick Ave Display, serif" font-size="36" fill="#8B0000" text-anchor="middle" font-weight="400">C</text>
+</svg>
