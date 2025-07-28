@@ -694,3 +694,148 @@ input, textarea, select {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ========================================
+   ESTILOS PARA LOGIN MINIMALISTA
+======================================== */
+
+.login-container-minimal {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+  font-family: var(--font-family);
+}
+
+.login-card-minimal {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.login-header-minimal {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-title-minimal {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.025em;
+}
+
+.login-subtitle-minimal {
+  font-size: 0.95rem;
+  color: #718096;
+  margin: 0;
+  font-weight: 400;
+}
+
+.login-form-minimal {
+  width: 100%;
+}
+
+.login-field-minimal {
+  margin-bottom: 20px;
+}
+
+.login-label-minimal {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.login-input-minimal {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #2d3748;
+  background: white;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.login-input-minimal:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+}
+
+.login-input-minimal::placeholder {
+  color: #a0aec0;
+}
+
+.login-button-minimal {
+  width: 100%;
+  padding: 14px 16px;
+  background: #4299e1;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
+.login-button-minimal:hover {
+  background: #3182ce;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+}
+
+.login-button-minimal:active {
+  transform: translateY(0);
+}
+
+.login-message-minimal {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  text-align: center;
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.login-footer-minimal {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.login-footer-minimal p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #a0aec0;
+}
+
+/* Responsive para login minimalista */
+@media (max-width: 480px) {
+  .login-container-minimal {
+    padding: 15px;
+  }
+  
+  .login-card-minimal {
+    padding: 30px 20px;
+  }
+  
+  .login-title-minimal {
+    font-size: 1.75rem;
+  }
+}
