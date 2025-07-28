@@ -133,7 +133,7 @@ function Login() {
       {/* Footer corporativo */}
       <footer className="login-footer text-center py-4">
         <p className="mb-0" style={{ fontSize: '0.9rem', fontWeight: '300' }}>
-          © 2025 CarlonchoApp Enterprise Solutions | Todos los derechos reservados
+          © 2025 CarlonchoApp | Todos los derechos reservados | Desarrollado por CarlonchoDev RUGE 2025
         </p>
       </footer>
     </div>

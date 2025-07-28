@@ -11,6 +11,7 @@ function AdminPanel() {
   const [solicitudes, setSolicitudes] = useState([]);
   const [selectedSolicitud, setSelectedSolicitud] = useState(null);
   const [formVisible, setFormVisible] = useState(false);
+  const [archivoPopup, setArchivoPopup] = useState({ visible: false, url: '', tipo: '' });
   
   // Estados para el dashboard ejecutivo
   const [dashboardStats, setDashboardStats] = useState({
@@ -41,6 +42,35 @@ function AdminPanel() {
   const [sidebarAnim, setSidebarAnim] = useState(false);
   const [sidebarShow, setSidebarShow] = useState(false); // NUEVO estado
   const sidebarRef = useRef(null);
+
+  // Función para generar URL firmada dinámicamente
+  const getSignedUrl = async (filePath) => {
+    const { data, error } = await supabase.storage
+      .from('solicitudes')
+      .createSignedUrl(filePath, 60 * 60); // 1 hora
+    
+    if (error) {
+      console.error('Error al generar URL firmada:', error);
+      return null;
+    }
+    
+    return data.signedUrl;
+  };
+
+  // Función para abrir archivo con URL firmada dinámica
+  const openFile = async (filePath) => {
+    const signedUrl = await getSignedUrl(filePath);
+    if (signedUrl) {
+      const isPdf = filePath.toLowerCase().includes('.pdf');
+      setArchivoPopup({
+        visible: true,
+        url: signedUrl,
+        tipo: isPdf ? 'pdf' : 'img'
+      });
+    } else {
+      console.error('Error al abrir el archivo.');
+    }
+  };
 
   useEffect(() => {
     setFormVisible(true);
@@ -923,11 +953,15 @@ function AdminPanel() {
                     <div className="mb-2">
                       <b>Archivos:</b>
                       <ul>
-                        {selectedSolicitud.archivos.map((url, idx) => (
+                        {selectedSolicitud.archivos.map((filePath, idx) => (
                           <li key={idx}>
-                            <a href={url} target="_blank" rel="noopener noreferrer">
+                            <button
+                              className="btn btn-link"
+                              style={{ padding: 0, fontSize: 14 }}
+                              onClick={() => openFile(filePath)}
+                            >
                               Ver archivo {idx + 1}
-                            </a>
+                            </button>
                           </li>
                         ))}
                       </ul>
@@ -937,6 +971,66 @@ function AdminPanel() {
               </div>
             )}
           </>
+        )}
+
+        {/* Modal para visualizar archivos */}
+        {archivoPopup.visible && (
+          <div
+            style={{
+              position: 'fixed',
+              top: 0, left: 0, right: 0, bottom: 0,
+              background: 'rgba(0,0,0,0.8)',
+              zIndex: 99999,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+            onClick={() => setArchivoPopup({ visible: false, url: '', tipo: '' })}
+          >
+            <div
+              style={{
+                background: '#fff',
+                padding: 24,
+                borderRadius: 8,
+                maxWidth: '90vw',
+                maxHeight: '90vh',
+                boxShadow: '0 2px 16px rgba(0,0,0,0.2)',
+                position: 'relative'
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Icono X para cerrar */}
+              <span
+                style={{
+                  position: 'absolute',
+                  top: 8,
+                  right: 8,
+                  fontSize: 28,
+                  color: '#d00',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  zIndex: 100000
+                }}
+                onClick={() => setArchivoPopup({ visible: false, url: '', tipo: '' })}
+                title="Cerrar"
+              >
+                ×
+              </span>
+              {archivoPopup.tipo === 'pdf' ? (
+                <iframe
+                  src={archivoPopup.url}
+                  title="Archivo PDF"
+                  style={{ width: '70vw', height: '70vh', border: 'none' }}
+                />
+              ) : (
+                <img
+                  src={archivoPopup.url}
+                  alt="Archivo"
+                  style={{ maxWidth: '70vw', maxHeight: '70vh', borderRadius: 8 }}
+                />
+              )}
+            </div>
+          </div>
         )}
 
         {/* Footer de derechos reservados */}

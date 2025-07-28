@@ -38,6 +38,35 @@ function UserPanel() {
 
   const fileInputRef = useRef();
 
+  // Función para generar URL firmada dinámicamente
+  const getSignedUrl = async (filePath) => {
+    const { data, error } = await supabase.storage
+      .from('solicitudes')
+      .createSignedUrl(filePath, 60 * 60); // 1 hora
+    
+    if (error) {
+      console.error('Error al generar URL firmada:', error);
+      return null;
+    }
+    
+    return data.signedUrl;
+  };
+
+  // Función para abrir archivo con URL firmada dinámica
+  const openFile = async (filePath) => {
+    const signedUrl = await getSignedUrl(filePath);
+    if (signedUrl) {
+      const isPdf = filePath.toLowerCase().includes('.pdf');
+      setArchivoPopup({
+        visible: true,
+        url: signedUrl,
+        tipo: isPdf ? 'pdf' : 'img'
+      });
+    } else {
+      setMsg('Error al abrir el archivo.');
+    }
+  };
+
   useEffect(() => {
     setFormVisible(true);
     const fetchSolicitudes = async () => {
@@ -148,8 +177,8 @@ function UserPanel() {
       return;
     }
 
-    // Subir archivos
-    let archivosUrls = [];
+    // Subir archivos y guardar solo las rutas
+    let archivosPaths = [];
     for (let file of archivos) {
       const cleanFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
       const filePath = `${userId}/${Date.now()}_${cleanFileName}`;
@@ -169,24 +198,8 @@ function UserPanel() {
         return;
       }
 
-      // Genera una URL firmada válida por 1 hora
-      const { data, error: urlError } = await supabase.storage
-        .from('solicitudes')
-        .createSignedUrl(filePath, 60 * 60);
-
-      if (urlError) {
-        console.log(urlError);
-        setPopup({
-          visible: true,
-          success: false,
-          info: { ...form },
-          message: 'Error al obtener URL del archivo.'
-        });
-        setMsg('');
-        return;
-      }
-
-      archivosUrls.push(data.signedUrl);
+      // Guardamos solo la ruta del archivo, no la URL firmada
+      archivosPaths.push(filePath);
     }
 
     // Insertar solicitud
@@ -200,7 +213,7 @@ function UserPanel() {
         carrera: form.carrera,
         telefono: form.telefono,
         descripcion: form.descripcion,
-        archivos: archivosUrls,
+        archivos: archivosPaths, // Guardamos las rutas, no las URLs
         estado: 'activa',
         fecha_creacion: new Date().toISOString(),
         fecha_modificacion: null
@@ -324,8 +337,8 @@ function UserPanel() {
           style={{
             position: 'fixed',
             top: 0, left: 0, right: 0, bottom: 0,
-            background: 'rgba(0,0,0,0.5)',
-            zIndex: 9999,
+            background: 'rgba(0,0,0,0.8)',
+            zIndex: 99999,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center'
@@ -354,7 +367,7 @@ function UserPanel() {
                 color: '#d00',
                 cursor: 'pointer',
                 fontWeight: 'bold',
-                zIndex: 10
+                zIndex: 100000
               }}
               onClick={() => setArchivoPopup({ visible: false, url: '', tipo: '' })}
               title="Cerrar"
@@ -699,16 +712,12 @@ function UserPanel() {
               <div className="mb-2">
                 <b>Archivos:</b>
                 <ul>
-                  {selectedSolicitud.archivos.map((url, idx) => (
+                  {selectedSolicitud.archivos.map((filePath, idx) => (
                     <li key={idx}>
                       <button
                         className="btn btn-link"
                         style={{ padding: 0, fontSize: 14 }}
-                        onClick={() => setArchivoPopup({
-                          visible: true,
-                          url,
-                          tipo: url.includes('.pdf') ? 'pdf' : 'img'
-                        })}
+                        onClick={() => openFile(filePath)}
                       >
                         Ver archivo {idx + 1}
                       </button>
