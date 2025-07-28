@@ -2,13 +2,62 @@ import React, { useEffect, useState } from 'react';
 import { supabase } from '../../supabaseClient';
 import { FaWhatsapp, FaCheckCircle, FaTimesCircle, FaDownload, FaUserEdit, FaFileAlt } from 'react-icons/fa';
 
+// Componente auxiliar para mostrar email del usuario
+const SolicitudEmailDisplay = ({ userId, getUserEmail }) => {
+  const [email, setEmail] = useState('Cargando...');
+
+  React.useEffect(() => {
+    const fetchEmail = async () => {
+      const userEmail = await getUserEmail(userId);
+      setEmail(userEmail);
+    };
+    fetchEmail();
+  }, [userId, getUserEmail]);
+
+  return <div className="mb-2"><b>Usuario que envió:</b> {email}</div>;
+};
+
 function OperatorPanel() {
   const [solicitudes, setSolicitudes] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [userEmails, setUserEmails] = useState({}); // Cache de emails de usuarios
   const [respuesta, setRespuesta] = useState('');
   const [selectedSolicitud, setSelectedSolicitud] = useState(null);
   const [search, setSearch] = useState('');
   const [estadoFiltro, setEstadoFiltro] = useState('todos');
   const [archivoPopup, setArchivoPopup] = useState({ visible: false, url: '', tipo: '' });
+
+  // Función para obtener el email del usuario por ID
+  const getUserEmail = async (userId) => {
+    // Si ya tenemos el email en cache, lo usamos
+    if (userEmails[userId]) {
+      return userEmails[userId];
+    }
+
+    try {
+      // Intentamos obtener el email desde la tabla users primero
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('email')
+        .eq('id', userId)
+        .single();
+
+      if (!userError && userData?.email) {
+        setUserEmails(prev => ({ ...prev, [userId]: userData.email }));
+        return userData.email;
+      }
+
+      // Si no está en users, fallback a mostrar parte del ID
+      const shortId = userId ? userId.substring(0, 8) + '...' : 'Usuario desconocido';
+      setUserEmails(prev => ({ ...prev, [userId]: shortId }));
+      return shortId;
+    } catch (error) {
+      console.error('Error al obtener email del usuario:', error);
+      const shortId = userId ? userId.substring(0, 8) + '...' : 'Usuario desconocido';
+      setUserEmails(prev => ({ ...prev, [userId]: shortId }));
+      return shortId;
+    }
+  };
 
   // Función para generar URL firmada dinámicamente
   const getSignedUrl = async (filePath) => {
@@ -42,6 +91,12 @@ function OperatorPanel() {
   // Polling solo para la lista de solicitudes
   useEffect(() => {
     let intervalId;
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setCurrentUser(data.user);
+    };
+    getUser();
+    
     const fetchSolicitudes = async () => {
       const { data } = await supabase
         .from('solicitudes')
@@ -147,6 +202,17 @@ function OperatorPanel() {
 
   return (
     <div className="container py-4">
+      {/* Información del usuario en la parte superior */}
+      <div className="mb-3 p-2 bg-light rounded d-flex justify-content-between align-items-center">
+        <div>
+          <small className="text-muted">Sesión activa:</small>
+          <span className="ms-2 fw-bold">{currentUser?.email || 'Cargando...'}</span>
+        </div>
+        <div>
+          <span className="badge bg-success">Operador</span>
+        </div>
+      </div>
+
       <h2 className="mb-4 text-primary">
         <FaUserEdit style={{ marginRight: 8 }} />
         Gestión de Solicitudes
@@ -234,6 +300,8 @@ function OperatorPanel() {
               borderRadius: 12,
               maxWidth: 500,
               width: '90vw',
+              maxHeight: '85vh',
+              overflow: 'auto',
               boxShadow: '0 2px 16px rgba(0,0,0,0.2)',
               position: 'relative'
             }}
@@ -255,17 +323,32 @@ function OperatorPanel() {
             >
               ×
             </span>
-            <h4 className="mb-2 text-info">
+            <h4 className="mb-2" style={{ color: '#003770' }}>
               <FaFileAlt style={{ marginRight: 6 }} />
               Solicitud de {selectedSolicitud.nombre}
             </h4>
-            <div className="mb-2"><b>Usuario que envió:</b> {selectedSolicitud.usuario_id}</div>
+            <SolicitudEmailDisplay userId={selectedSolicitud.usuario_id} getUserEmail={getUserEmail} />
             <div className="mb-2"><b>Cédula:</b> {selectedSolicitud.cedula}</div>
             <div className="mb-2"><b>Carrera:</b> {selectedSolicitud.carrera}</div>
             <div className="mb-2"><b>Tipo de Admisión:</b> {selectedSolicitud.tipo_admision}</div>
             <div className="mb-2"><b>Teléfono:</b> {selectedSolicitud.telefono}</div>
             <div className="mb-2"><b>Estado:</b> {selectedSolicitud.estado}</div>
-            <div className="mb-2"><b>Descripción:</b> {selectedSolicitud.descripcion}</div>
+            <div className="mb-2">
+              <b>Descripción:</b>
+              <div style={{
+                marginTop: 4,
+                padding: 8,
+                backgroundColor: '#f8f9fa',
+                borderRadius: 4,
+                border: '1px solid #e9ecef',
+                maxHeight: '120px',
+                overflowY: 'auto',
+                wordWrap: 'break-word',
+                whiteSpace: 'pre-wrap'
+              }}>
+                {selectedSolicitud.descripcion}
+              </div>
+            </div>
             {/* Mostrar respuesta si existe */}
             {selectedSolicitud.respuesta && (
               <div className="mb-2">
@@ -281,7 +364,11 @@ function OperatorPanel() {
                   fontWeight: 'bold',
                   color: '#222',
                   fontSize: '1.05rem',
-                  boxShadow: '0 2px 8px rgba(40,167,69,0.08)'
+                  boxShadow: '0 2px 8px rgba(40,167,69,0.08)',
+                  maxHeight: '120px',
+                  overflowY: 'auto',
+                  wordWrap: 'break-word',
+                  whiteSpace: 'pre-wrap'
                 }}>
                   {selectedSolicitud.respuesta}
                 </div>

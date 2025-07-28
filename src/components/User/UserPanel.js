@@ -11,8 +11,116 @@ const tiposAdmision = [
   'Otros'
 ];
 
+const carreras = [
+  { codigo: '103020', nombre: 'LIC. EN ING. AGR TROP MAN R. REN' },
+  { codigo: '19701', nombre: 'LIC. EN INGENIERIA AGRICOLA' },
+  { codigo: '649701', nombre: 'LIC. EN INGENIERIA FITOTECNISTA' },
+  { codigo: '730602', nombre: 'LIC. EN INGENIERIA FORESTAL(NUE)' },
+  { codigo: '770201', nombre: 'LIC. INGENIERO AGRONOMO ZOOTECNISTA' },
+  { codigo: '117071', nombre: 'LICENCIATURA EN ING. AGROINDUSTRIAL' },
+  { codigo: '718801', nombre: 'LICENCIATURA EN INGENIERIA AGRONOMICA' },
+  { codigo: '128091', nombre: 'PRG DESC. DE LIC. EN ING. DEL MEDIO AMB.' },
+  { codigo: '102040', nombre: 'PROGRAMA COMPLEMENTACION ING. FORESTA' },
+  { codigo: '730001', nombre: 'PROGRAMA LIC. EN INGENIERIA FORESTAL' },
+  { codigo: '709701', nombre: 'TEC. SUPERIOR EN MECANIZACION AGRICOLA' },
+  { codigo: '135121', nombre: 'TEC. UNIV. SUP. GES. TERR. DES. END. SUS' },
+  { codigo: '49001', nombre: 'LICENCIATURA EN BIOQUIMICA Y FARMACIA' },
+  { codigo: '109401', nombre: 'LIC. EN ADMINISTRACION DE EMPRESAS' },
+  { codigo: '89801', nombre: 'LICENCIATURA EN CONTADURIA PUBLICA' },
+  { codigo: '59801', nombre: 'LICENCIATURA EN ECONOMIA' },
+  { codigo: '125091', nombre: 'LICENCIATURA EN INGENIERIA COMERCIAL' },
+  { codigo: '126091', nombre: 'LICENCIATURA EN INGENIERIA FINANCIERA' },
+  { codigo: '132091', nombre: 'LIC. EN PROD. AGRARIA Y DES. TERRITORIAL' },
+  { codigo: '163211', nombre: 'PROG LIC EN ING EN GEST DE REC HID. AGRO' },
+  { codigo: '119071', nombre: 'PROG. COM. LIC. DESARR. RURAL SOSTENIBLE' },
+  { codigo: '169231', nombre: 'PROG. LIC. EN INGENIERIA EN PISCICULTURA' },
+  { codigo: '168201', nombre: 'TECNICO SUPERIOR EN AGRONOMIA' },
+  { codigo: '179901', nombre: 'LIC. EN ODONTOLOGIA (PLAN NUEVO)' },
+  { codigo: '129091', nombre: 'LIC. EN FISIOTERAPIA Y KINESIOLOGIA' },
+  { codigo: '188301', nombre: 'LICENCIATURA EN MEDICINA' },
+  { codigo: '133011', nombre: 'LICENCIATURA EN NUTRICION Y DIETETICA' },
+  { codigo: '118071', nombre: 'PROG DE COMPL EN LIC FISIOTERAPIA Y KINE' },
+  { codigo: '156151', nombre: 'LIC. EN DIS. INTERIORES Y DEL MOBILIARIO' },
+  { codigo: '122081', nombre: 'LIC. EN DISEÑO GRAF Y COMUNIC VISUAL' },
+  { codigo: '127091', nombre: 'LIC. EN PLANIF. DEL TERR. Y MED. AMB' },
+  { codigo: '202002', nombre: 'LICENCIATURA EN ARQUITECTURA' },
+  { codigo: '231802', nombre: 'LICENCIATURA EN TURISMO' },
+  { codigo: '161191', nombre: 'PR. TEC. UNIV. MED. ETNOTURISMO COMUNIT.' },
+  { codigo: '229801', nombre: 'TECNICO UNIV. SUPERIOR EN CONSTRUCCIONES' },
+  { codigo: '269301', nombre: 'LIC. EN LINGUIS. APLIC.ENSEÑANZA LENGUAS' },
+  { codigo: '251302', nombre: 'LICENCIATURA EN CIENCIAS DE LA EDUCACION' },
+  { codigo: '258301', nombre: 'LICENCIATURA EN CIENCIAS DE LA EDUCACION' },
+  { codigo: '140502', nombre: 'LICENCIATURA EN COMUNICACION SOCIAL(NUE)' },
+  { codigo: '240101', nombre: 'LICENCIATURA EN PSICOLOGIA (NUE)' },
+  { codigo: '108061', nombre: 'LICENCIATURA EN TRABAJO SOCIAL' },
+  { codigo: '168231', nombre: 'PROG TEC SUP. EN EDUC. INFANT PARVULARIO' },
+  { codigo: '124081', nombre: 'PROG. LIC. EN PEDAGOGIA SOCIAL PRODUCTI' },
+  { codigo: '147141', nombre: 'PROG. LIC. EN CS. ACT. FISICA Y DEPORTE' },
+  { codigo: '153141', nombre: 'PROG. LIC. ESP. EN CIEN. SOC. E INTERCUL' },
+  { codigo: '152141', nombre: 'PROG. LIC. ESP. EN LENG. ORIG. Y COMUNIC' },
+  { codigo: '145141', nombre: 'PROGRAMA DE LICENCIATURA EN MUSICA' },
+  { codigo: '690602', nombre: 'PROGRAMA LIC. ESP. ED. INTERCUL.BILINGUE' },
+  { codigo: '279901', nombre: 'LICENCIATURA EN CIENCIAS JURIDICAS' },
+  { codigo: '280101', nombre: 'LICENCIATURA EN CIENCIAS POLITICAS (NUE)' },
+  { codigo: '114071', nombre: 'LICENCIATURA DIDACTICA MATEMATICA' },
+  { codigo: '399501', nombre: 'LICENCIATURA EN BIOLOGIA' },
+  { codigo: '760101', nombre: 'LICENCIATURA EN DIDACTICA DE LA FISICA' },
+  { codigo: '359201', nombre: 'LICENCIATURA EN FISICA' },
+  { codigo: '650001', nombre: 'LICENCIATURA EN ING. ELECTROMECANICA' },
+  { codigo: '320902', nombre: 'LICENCIATURA EN INGENIERIA CIVIL (NUEVO)' },
+  { codigo: '409701', nombre: 'LICENCIATURA EN INGENIERIA DE ALIMENTOS' },
+  { codigo: '411702', nombre: 'LICENCIATURA EN INGENIERIA DE SISTEMAS' },
+  { codigo: '419701', nombre: 'LICENCIATURA EN INGENIERIA DE SISTEMAS' },
+  { codigo: '299701', nombre: 'LICENCIATURA EN INGENIERIA ELECTRICA' },
+  { codigo: '429701', nombre: 'LICENCIATURA EN INGENIERIA ELECTRONICA' },
+  { codigo: '309801', nombre: 'LICENCIATURA EN INGENIERIA INDUSTRIAL' },
+  { codigo: '134111', nombre: 'LICENCIATURA EN INGENIERIA INFORMATICA' },
+  { codigo: '439801', nombre: 'LICENCIATURA EN INGENIERIA MATEMATICA' },
+  { codigo: '319801', nombre: 'LICENCIATURA EN INGENIERIA MECANICA' },
+  { codigo: '339701', nombre: 'LICENCIATURA EN INGENIERIA QUIMICA' },
+  { codigo: '349701', nombre: 'LICENCIATURA EN MATEMATICAS' },
+  { codigo: '389701', nombre: 'LICENCIATURA EN QUIMICA' },
+  { codigo: '170241', nombre: 'PROG DESC DE TEC UNIV SUP EN GASTRONOMIA' },
+  { codigo: '165221', nombre: 'PROGRAMA DE INGENIERIA EN BIOTECNOLOGIA' },
+  { codigo: '166231', nombre: 'PROGRAMA LIC. EN INGENIERIA EN ENERGIA' },
+  { codigo: '590602', nombre: 'AUXILIAR TECNICO EN ENFERMERIA' },
+  { codigo: '131091', nombre: 'LIC. EN ING. MEC. AUTOMOT. Y MAQ. AGROIN' },
+  { codigo: '146131', nombre: 'PRG. COMP. LIC. ING. MEC. AUT. Y MAQ. AG' },
+  { codigo: '146142', nombre: 'PRG. COMP. LIC. ING. MEC. AUT. Y MAQ. AG' },
+  { codigo: '123081', nombre: 'PRG. TEC. MED. EN GEST MUN Y DES END SOS' },
+  { codigo: '155162', nombre: 'TEC. UNIV. MEDIO EN ENFERMERIA (NUEVO)' },
+  { codigo: '569201', nombre: 'TEC.UNIV. SUP. EN INDUSTRIA DE ALIMENTOS' },
+  { codigo: '720101', nombre: 'TEC.UNIV.SUP. EN MECANICA AUTOMOTRIZ' },
+  { codigo: '589401', nombre: 'TEC.UNIV.SUP. EN CONSTRUCCION CIVIL' },
+  { codigo: '489201', nombre: 'TEC.UNIV.SUP. EN MECANICA INDUSTRIAL' },
+  { codigo: '529801', nombre: 'TEC.UNIV.SUP. EN QUIMICA INDUSTRIAL' },
+  { codigo: '150802', nombre: 'LICENCIATURA EN SOCIOLOGIA' },
+  { codigo: '142131', nombre: 'PROGRAMA DE LICENCIATURA EN ANTROPOLOGIA' },
+  { codigo: '164221', nombre: 'PROGRAMA DE LICENCIATURA EN HISTORIA' },
+  { codigo: '149141', nombre: 'PROG. DE LIC. EN INGENIERIA AMBIENTAL' },
+  { codigo: '150141', nombre: 'PROG. DE LIC. EN INGENIERIA PETROQUIMICA' },
+  { codigo: '144131', nombre: 'PROG. DE LICENCIATURA EN COMUNICACION' },
+  { codigo: '158161', nombre: 'PROG. DE LICENCIATURA EN ENFERMERIA' },
+  { codigo: '148141', nombre: 'PROG. LIC. EN ADMINISTRACION DE EMPRESAS' },
+  { codigo: '159161', nombre: 'PROG. LICENCIATURA EN PEDAGOGIA SOCIAL' },
+  { codigo: '138131', nombre: 'PROGRAMA DE LIC. EN ENFERMERIA OBSTETRIZ' },
+  { codigo: '136121', nombre: 'PROGRAMA DE LIC. EN INGENIERIA AMBIENTAL' },
+  { codigo: '162211', nombre: 'PROG. LICENCIATURA EN CONTADURIA PUBLICA' },
+  { codigo: '141131', nombre: 'PROGRAMA DE LIC. EN ENFERMERIA OBSTETRIZ' },
+  { codigo: '143131', nombre: 'PROG. LIC. EN GEST. DES. ENDOG Y AGROEC' },
+  { codigo: '39503', nombre: 'LIC. EN MEDICINA VETERINARIA Y ZOOTECNIA' },
+  { codigo: '171241', nombre: 'PROG. DESC DE T.U.S. EN VET. Y ZOOTECNIA' },
+  { codigo: '157161', nombre: 'PROG. DE LIC. EN INGENIERIA AGROFORESTAL' },
+  { codigo: '154141', nombre: 'PROG. LIC. EN ING. REC. HIDRICOS AGROPEC' },
+  { codigo: '151141', nombre: 'PROGRAMA LICENCIATURA EN CONSTRUCCIONES' },
+  { codigo: '130091', nombre: 'LICENCIATURA EN ENFERMERIA' },
+  { codigo: '190602', nombre: 'LICENCIATURA EN ENFERMERIA(NUE)' },
+  { codigo: '167231', nombre: 'PROG. DESC. TUM ENFERMERIA COMUNITARIA' }
+];
+
 function UserPanel() {
   const [solicitudes, setSolicitudes] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
   const [form, setForm] = useState({
     nombre: '',
     cedula: '',
@@ -37,6 +145,21 @@ function UserPanel() {
   const [estadoFiltro, setEstadoFiltro] = useState('todos');
 
   const fileInputRef = useRef();
+
+  // Función para obtener el email del usuario por ID
+  const getUserEmail = async (userId) => {
+    try {
+      const { data, error } = await supabase.auth.admin.getUserById(userId);
+      if (error) {
+        console.error('Error al obtener usuario:', error);
+        return userId; // Fallback al ID si no se puede obtener el email
+      }
+      return data.user?.email || userId;
+    } catch (error) {
+      console.error('Error al obtener email del usuario:', error);
+      return userId; // Fallback al ID
+    }
+  };
 
   // Función para generar URL firmada dinámicamente
   const getSignedUrl = async (filePath) => {
@@ -69,6 +192,12 @@ function UserPanel() {
 
   useEffect(() => {
     setFormVisible(true);
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser();
+      setCurrentUser(data.user);
+    };
+    getUser();
+    
     const fetchSolicitudes = async () => {
       const { data: userData } = await supabase.auth.getUser();
       const userId = userData?.user?.id;
@@ -285,6 +414,17 @@ function UserPanel() {
 
   return (
     <div>
+      {/* Información del usuario en la parte superior */}
+      <div className="mb-3 p-2 bg-light rounded d-flex justify-content-between align-items-center">
+        <div>
+          <small className="text-muted">Sesión activa:</small>
+          <span className="ms-2 fw-bold">{currentUser?.email || 'Cargando...'}</span>
+        </div>
+        <div>
+          <span className="badge bg-primary">Usuario</span>
+        </div>
+      </div>
+
       <h2 className="mb-3 text-primary">
         <FaUser style={{ marginRight: 8 }} />
         Panel de Usuario
@@ -425,15 +565,20 @@ function UserPanel() {
             <option key={tipo} value={tipo}>{tipo}</option>
           ))}
         </select>
-        <input
-          type="text"
+        <select
           name="carrera"
-          placeholder="Carrera"
           value={form.carrera}
           onChange={handleChange}
           className="form-control mb-2"
           required
-        />
+        >
+          <option value="">Selecciona tu carrera</option>
+          {carreras.map(carrera => (
+            <option key={carrera.codigo} value={`${carrera.codigo} - ${carrera.nombre}`}>
+              {carrera.codigo} - {carrera.nombre}
+            </option>
+          ))}
+        </select>
         <input
           type="text"
           name="telefono"
@@ -654,6 +799,8 @@ function UserPanel() {
               borderRadius: 12,
               maxWidth: 500,
               width: '90vw',
+              maxHeight: '85vh',
+              overflow: 'auto',
               boxShadow: '0 2px 16px rgba(0,0,0,0.2)',
               position: 'relative'
             }}
@@ -675,16 +822,35 @@ function UserPanel() {
             >
               ×
             </span>
-            <h4 className="mb-2 text-info">
+            <h4 className="mb-2" style={{ color: '#003770' }}>
               <FaFileAlt style={{ marginRight: 6 }} />
               Solicitud de {selectedSolicitud.nombre}
             </h4>
+            <div className="mb-2">
+              <small className="text-muted">Enviado por:</small>
+              <span className="ms-2 fw-bold">{currentUser?.email || 'Usuario'}</span>
+            </div>
             <div className="mb-2"><b>Cédula:</b> {selectedSolicitud.cedula}</div>
             <div className="mb-2"><b>Carrera:</b> {selectedSolicitud.carrera}</div>
             <div className="mb-2"><b>Tipo de Admisión:</b> {selectedSolicitud.tipo_admision}</div>
             <div className="mb-2"><b>Teléfono:</b> {selectedSolicitud.telefono}</div>
             <div className="mb-2"><b>Estado:</b> {selectedSolicitud.estado}</div>
-            <div className="mb-2"><b>Descripción:</b> {selectedSolicitud.descripcion}</div>
+            <div className="mb-2">
+              <b>Descripción:</b>
+              <div style={{
+                marginTop: 4,
+                padding: 8,
+                backgroundColor: '#f8f9fa',
+                borderRadius: 4,
+                border: '1px solid #e9ecef',
+                maxHeight: '120px',
+                overflowY: 'auto',
+                wordWrap: 'break-word',
+                whiteSpace: 'pre-wrap'
+              }}>
+                {selectedSolicitud.descripcion}
+              </div>
+            </div>
             <div className="mb-2"><b>Fecha de envío:</b> {selectedSolicitud.fecha_creacion ? new Date(selectedSolicitud.fecha_creacion).toLocaleString() : 'No disponible'}</div>
             <div className="mb-2"><b>Fecha de respuesta:</b> {selectedSolicitud.fecha_modificacion ? new Date(selectedSolicitud.fecha_modificacion).toLocaleString() : 'No disponible'}</div>
             {/* Mostrar respuesta del operador si existe */}
@@ -702,7 +868,11 @@ function UserPanel() {
                   fontWeight: 'bold',
                   color: '#222',
                   fontSize: '1.05rem',
-                  boxShadow: '0 2px 8px rgba(40,167,69,0.08)'
+                  boxShadow: '0 2px 8px rgba(40,167,69,0.08)',
+                  maxHeight: '120px',
+                  overflowY: 'auto',
+                  wordWrap: 'break-word',
+                  whiteSpace: 'pre-wrap'
                 }}>
                   {selectedSolicitud.respuesta}
                 </div>

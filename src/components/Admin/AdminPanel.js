@@ -4,14 +4,62 @@ import OperatorPanel from '../Operator/OperatorPanel';
 import UserPanel from '../User/UserPanel';
 import { FaUserShield, FaEnvelope, FaUserTag, FaFileAlt, FaCheckCircle, FaTimesCircle, FaUserPlus, FaIdCard, FaPhone, FaBars, FaChartBar, FaClock, FaDownload, FaBell, FaCalendarAlt, FaExclamationTriangle, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 
+// Componente auxiliar para mostrar email del usuario en Admin
+const AdminEmailDisplay = ({ userId, getUserEmail, prefix = "Usuario:" }) => {
+  const [email, setEmail] = useState('Cargando...');
+
+  React.useEffect(() => {
+    const fetchEmail = async () => {
+      const userEmail = await getUserEmail(userId);
+      setEmail(userEmail);
+    };
+    fetchEmail();
+  }, [userId, getUserEmail]);
+
+  return <b>{email}</b>;
+};
+
 function AdminPanel() {
   const [currentUser, setCurrentUser] = useState(null);
+  const [userEmails, setUserEmails] = useState({}); // Cache de emails de usuarios
   const [view, setView] = useState('admin');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [solicitudes, setSolicitudes] = useState([]);
   const [selectedSolicitud, setSelectedSolicitud] = useState(null);
   const [formVisible, setFormVisible] = useState(false);
   const [archivoPopup, setArchivoPopup] = useState({ visible: false, url: '', tipo: '' });
+
+  // Función para obtener el email del usuario por ID
+  const getUserEmail = async (userId) => {
+    // Si ya tenemos el email en cache, lo usamos
+    if (userEmails[userId]) {
+      return userEmails[userId];
+    }
+
+    try {
+      // Intentamos obtener el email desde la tabla users primero
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('email')
+        .eq('id', userId)
+        .single();
+
+      if (!userError && userData?.email) {
+        setUserEmails(prev => ({ ...prev, [userId]: userData.email }));
+        return userData.email;
+      }
+
+      // Si no está en users, fallback a mostrar parte del ID
+      const shortId = userId ? userId.substring(0, 8) + '...' : 'Usuario desconocido';
+      setUserEmails(prev => ({ ...prev, [userId]: shortId }));
+      return shortId;
+    } catch (error) {
+      console.error('Error al obtener email del usuario:', error);
+      const shortId = userId ? userId.substring(0, 8) + '...' : 'Usuario desconocido';
+      setUserEmails(prev => ({ ...prev, [userId]: shortId }));
+      return shortId;
+    }
+  };
   
   // Estados para el dashboard ejecutivo
   const [dashboardStats, setDashboardStats] = useState({
@@ -263,6 +311,29 @@ function AdminPanel() {
 
   return (
     <div style={{ minHeight: '100vh', background: '#f8f9fa', position: 'relative' }}>
+      {/* Información del usuario en la parte superior */}
+      <div style={{ 
+        position: 'fixed', 
+        top: 0, 
+        right: 0, 
+        left: 60, 
+        zIndex: 1000,
+        background: '#fff',
+        padding: '8px 16px',
+        borderBottom: '1px solid #dee2e6',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+      }}>
+        <div>
+          <small className="text-muted">Sesión activa:</small>
+          <span className="ms-2 fw-bold">{currentUser?.email || 'Cargando...'}</span>
+        </div>
+        <div>
+          <span className="badge bg-danger">Administrador</span>
+        </div>
+      </div>
+
       {/* Botón menú hamburguesa */}
       <button
         style={{
@@ -443,7 +514,7 @@ function AdminPanel() {
       )}
 
       {/* Main content */}
-      <div className="flex-grow-1 p-4" style={{ marginLeft: 0 }}>
+      <div className="flex-grow-1 p-4" style={{ marginLeft: 0, paddingTop: '60px' }}>
         {view === 'dashboard' && (
           <>
             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -841,7 +912,7 @@ function AdminPanel() {
                   <div>
                     <FaFileAlt className="text-info" style={{ marginRight: 8 }} />
                     <b>{s.nombre}</b> <span className="ms-2">{s.tipo_admision}</span>
-                    <span className="ms-2 text-muted">Usuario: <b>{s.usuario_id}</b></span>
+                    <span className="ms-2 text-muted">Usuario: <AdminEmailDisplay userId={s.usuario_id} getUserEmail={getUserEmail} /></span>
                     <span className="ms-2 text-primary">Operador: <b>{s.operador || 'N/A'}</b></span>
                     <span className="ms-2 text-muted">
                       | <b>Enviado:</b> {s.fecha_creacion ? new Date(s.fecha_creacion).toLocaleString() : 'No disponible'}
@@ -875,6 +946,8 @@ function AdminPanel() {
                     borderRadius: 12,
                     maxWidth: 500,
                     width: '90vw',
+                    maxHeight: '85vh',
+                    overflow: 'auto',
                     boxShadow: '0 2px 16px rgba(0,0,0,0.2)',
                     position: 'relative'
                   }}
@@ -896,7 +969,7 @@ function AdminPanel() {
                   >
                     ×
                   </span>
-                  <h4 className="mb-2 text-info">
+                  <h4 className="mb-2" style={{ color: '#003770' }}>
                     <FaFileAlt style={{ marginRight: 6 }} />
                     Solicitud de {selectedSolicitud.nombre}
                   </h4>
@@ -905,8 +978,23 @@ function AdminPanel() {
                   <div className="mb-2"><b>Tipo de Admisión:</b> {selectedSolicitud.tipo_admision}</div>
                   <div className="mb-2"><b>Teléfono:</b> {selectedSolicitud.telefono}</div>
                   <div className="mb-2"><b>Estado:</b> {selectedSolicitud.estado}</div>
-                  <div className="mb-2"><b>Usuario que envió:</b> {selectedSolicitud.usuario_id}</div>
-                  <div className="mb-2"><b>Descripción:</b> {selectedSolicitud.descripcion}</div>
+                  <div className="mb-2"><b>Usuario que envió:</b> <AdminEmailDisplay userId={selectedSolicitud.usuario_id} getUserEmail={getUserEmail} prefix="" /></div>
+                  <div className="mb-2">
+                    <b>Descripción:</b>
+                    <div style={{
+                      marginTop: 4,
+                      padding: 8,
+                      backgroundColor: '#f8f9fa',
+                      borderRadius: 4,
+                      border: '1px solid #e9ecef',
+                      maxHeight: '120px',
+                      overflowY: 'auto',
+                      wordWrap: 'break-word',
+                      whiteSpace: 'pre-wrap'
+                    }}>
+                      {selectedSolicitud.descripcion}
+                    </div>
+                  </div>
                   <div className="mb-2"><b>Fecha de envío:</b> {selectedSolicitud.fecha_creacion ? new Date(selectedSolicitud.fecha_creacion).toLocaleString() : 'No disponible'}</div>
                   <div className="mb-2"><b>Fecha de respuesta:</b> {selectedSolicitud.fecha_modificacion ? new Date(selectedSolicitud.fecha_modificacion).toLocaleString() : 'No disponible'}</div>
                   {selectedSolicitud.respuesta && (
