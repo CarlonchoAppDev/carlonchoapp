@@ -146,21 +146,6 @@ function UserPanel() {
 
   const fileInputRef = useRef();
 
-  // Función para obtener el email del usuario por ID
-  const getUserEmail = async (userId) => {
-    try {
-      const { data, error } = await supabase.auth.admin.getUserById(userId);
-      if (error) {
-        console.error('Error al obtener usuario:', error);
-        return userId; // Fallback al ID si no se puede obtener el email
-      }
-      return data.user?.email || userId;
-    } catch (error) {
-      console.error('Error al obtener email del usuario:', error);
-      return userId; // Fallback al ID
-    }
-  };
-
   // Función para generar URL firmada dinámicamente
   const getSignedUrl = async (filePath) => {
     const { data, error } = await supabase.storage
@@ -912,8 +897,13 @@ function UserPanel() {
 
       {/* Footer de derechos reservados */}
       <footer className="mt-5 pt-4 border-top text-center">
-        <p className="text-muted mb-0">
+        <p className="text-muted mb-0 d-flex align-items-center justify-content-center gap-2">
           © 2025 CarlonchoDevApp - Todos los derechos reservados
+          <img 
+            src={`${process.env.PUBLIC_URL}/carlonchito.png`}
+            alt="Carlonchito Logo" 
+            className="footer-logo-inline"
+          />
         </p>
       </footer>
     </div>

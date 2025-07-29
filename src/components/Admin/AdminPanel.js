@@ -1123,8 +1123,13 @@ function AdminPanel() {
 
         {/* Footer de derechos reservados */}
         <footer className="mt-5 pt-4 border-top text-center">
-          <p className="text-muted mb-0">
+          <p className="text-muted mb-0 d-flex align-items-center justify-content-center gap-2">
             © 2025 CarlonchoDevApp - Todos los derechos reservados
+            <img 
+              src={`${process.env.PUBLIC_URL}/carlonchito.png`}
+              alt="Carlonchito Logo" 
+              className="footer-logo-inline"
+            />
           </p>
         </footer>
       </div>

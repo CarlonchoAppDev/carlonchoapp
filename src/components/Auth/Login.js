@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../supabaseClient';
+import { FaUser } from 'react-icons/fa';
 import AdminPanel from '../Admin/AdminPanel';
 import OperatorPanel from '../Operator/OperatorPanel';
 import UserPanel from '../User/UserPanel';
@@ -64,13 +65,30 @@ function Login() {
     return <UserPanel />;
   }
 
-  // Formulario de login
+  // Formulario de login minimalista
   return (
     <div className="login-container-minimal">
       <div className="login-card-minimal">
         
-        {/* Logo/Título minimalista */}
+        {/* Título minimalista */}
         <div className="login-header-minimal">
+          <div className="login-logo-container">
+            <img 
+              src={`${process.env.PUBLIC_URL}/carlonchito.png`}
+              alt="Carlonchito Logo" 
+              className="login-logo-image"
+              onError={(e) => {
+                console.log('Error cargando logo:', e);
+                // Intentar ruta alternativa
+                if (e.target.src.includes('process.env')) {
+                  e.target.src = '/carlonchito.png';
+                } else {
+                  e.target.style.display = 'none';
+                }
+              }}
+              onLoad={() => console.log('Logo cargado exitosamente')}
+            />
+          </div>
           <h1 className="login-title-minimal">CarlonchoApp</h1>
           <p className="login-subtitle-minimal">Sistema de Gestión SISS</p>
         </div>
@@ -78,7 +96,9 @@ function Login() {
         {/* Formulario minimalista */}
         <form onSubmit={handleLogin} className="login-form-minimal">
           <div className="login-field-minimal">
-            <label className="login-label-minimal">Correo electrónico</label>
+            <label className="login-label-minimal">
+              Correo electrónico
+            </label>
             <input
               type="email"
               placeholder="usuario@ejemplo.com"
@@ -90,7 +110,9 @@ function Login() {
           </div>
           
           <div className="login-field-minimal">
-            <label className="login-label-minimal">Contraseña</label>
+            <label className="login-label-minimal">
+              Contraseña
+            </label>
             <input
               type="password"
               placeholder="••••••••"
@@ -102,6 +124,7 @@ function Login() {
           </div>
           
           <button type="submit" className="login-button-minimal">
+            <FaUser className="login-button-icon" />
             Iniciar Sesión
           </button>
           
